@@ -53,11 +53,4 @@ return {
       }
     end,
   },
-  -- Use solarized-osaka theme as default
-  {
-    "LazyVim",
-    opts = {
-      colorscheme = "solarized-osaka",
-    },
-  },
 }
