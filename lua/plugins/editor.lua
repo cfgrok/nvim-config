@@ -31,6 +31,13 @@ return {
     },
   },
   {
+    "neo-tree.nvim",
+    keys = {
+      { "<leader>e", false },
+      { "<leader>E", false },
+    },
+  },
+  {
     "which-key.nvim",
     opts = {
       defaults = {
