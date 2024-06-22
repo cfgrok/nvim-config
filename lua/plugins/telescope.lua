@@ -2,8 +2,9 @@ return {
   -- Customize telescope layout and sorting
   {
     "telescope.nvim",
-    opts = {
-      defaults = {
+    opts = function(_, opts)
+      require("telescope").load_extension("persisted")
+      local defaults = {
         layout_config = {
           horizontal = {
             preview_width = 0.6,
@@ -12,7 +13,9 @@ return {
           },
         },
         sorting_strategy = "ascending",
-      },
-    },
+      }
+      opts.defaults = vim.tbl_deep_extend("force", opts.defaults, defaults)
+      return opts
+    end,
   },
 }
