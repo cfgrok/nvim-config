@@ -1,21 +1,4 @@
 return {
-  -- Disable custom textobject for entire buffer
-  {
-    "mini.ai",
-    opts = function(_, opts)
-      local function ai_whichkey_ignore()
-        require("which-key").register({
-          mode = { "o", "x" },
-          a = { g = "which_key_ignore" },
-          i = { g = "which_key_ignore" },
-        })
-      end
-      LazyVim.on_load("which-key.nvim", function()
-        vim.schedule(ai_whichkey_ignore)
-      end)
-      opts.custom_textobjects.g = nil
-    end,
-  },
   -- Configure "supertab" for completion and snippet navigation, as well as
   -- Ctrl-space for triggering completion menu and escape for closing it
   {
