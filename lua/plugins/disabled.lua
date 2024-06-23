@@ -4,4 +4,6 @@ return {
   { "mini.pairs", enabled = false },
   { "nvim-ts-autotag", enabled = false },
   { "persistence.nvim", enabled = false },
+
+  { "tokyonight.nvim", event = "VeryLazy" },
 }
