@@ -15,7 +15,12 @@ local solargraph_cmd = function()
 end
 
 return {
-  -- Add/configure solargraph LSP server
+  {
+    "mason.nvim",
+    opts = {
+      PATH = "append",
+    },
+  },
   {
     "nvim-lspconfig",
     opts = {
@@ -31,6 +36,7 @@ return {
             provideFormatter = true,
           },
         },
+        -- Add/configure solargraph LSP server
         solargraph = {
           cmd = solargraph_cmd(),
           root_dir = require("lspconfig.util").root_pattern("Gemfile", ".git", "."),
