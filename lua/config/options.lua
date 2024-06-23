@@ -11,6 +11,7 @@ vg.lazygit_config = false
 vg.lazyvim_prettier_needs_config = false
 vg.loaded_perl_provider = 0
 
+vo.cedit = "<c-o>"
 vo.mouse = ""
 vo.scrolloff = 2
 vo.signcolumn = "yes:2"
