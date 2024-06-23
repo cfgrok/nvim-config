@@ -1,8 +1,27 @@
 return {
-  -- Configure "supertab" for completion and snippet navigation, as well as
-  -- Ctrl-space for triggering completion menu and escape for closing it
   {
     "nvim-cmp",
+    -- Keymap to toggle autocompletion
+    keys = {
+      {
+        "<leader>ua",
+        function()
+          local cmp = require("cmp")
+
+          vim.g.cmp_autocomplete = vim.g.cmp_autocomplete ~= nil and not vim.g.cmp_autocomplete
+          if vim.g.cmp_autocomplete then
+            cmp.setup({ completion = { autocomplete = { "TextChanged" } } })
+            LazyVim.info("Autocomplete enabled", { title = "Autocompletion" })
+          else
+            cmp.setup({ completion = { autocomplete = false } })
+            LazyVim.warn("Autocomplete disabled", { title = "Autocompletion" })
+          end
+        end,
+        desc = "Toggle Autocompletion",
+      },
+    },
+    -- Configure "supertab" for completion and snippet navigation, as well as
+    -- Ctrl-space for toggling completion menu and escape for closing it
     ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
       local has_words_before = function()
