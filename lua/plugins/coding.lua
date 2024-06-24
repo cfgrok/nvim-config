@@ -24,12 +24,6 @@ return {
     -- Ctrl-space for toggling completion menu and escape for closing it
     ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
-      local has_words_before = function()
-        unpack = unpack or table.unpack
-        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-      end
-
       local cmp = require("cmp")
 
       opts.mapping = vim.tbl_extend("force", opts.mapping, {
@@ -40,8 +34,6 @@ return {
             vim.schedule(function()
               vim.snippet.jump(1)
             end)
-          elseif has_words_before() then
-            cmp.complete()
           else
             fallback()
           end
@@ -60,10 +52,8 @@ return {
         ["<C-Space>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.abort()
-          elseif has_words_before() then
-            cmp.complete()
           else
-            fallback()
+            cmp.complete()
           end
         end, { "i", "s" }),
         ["<Esc>"] = cmp.mapping(function(fallback)
