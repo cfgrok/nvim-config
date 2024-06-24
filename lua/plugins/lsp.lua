@@ -25,8 +25,9 @@ return {
     "nvim-lspconfig",
     opts = {
       servers = {
+        emmet_ls = { filetypes = { "cf" } },
         html = {
-          filetypes = { "eruby", "html", "templ" },
+          filetypes = { "cf", "eruby", "html", "templ" },
           init_options = {
             configurationSection = { "html", "css", "javascript" },
             embeddedLanguages = {
