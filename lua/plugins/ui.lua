@@ -29,6 +29,18 @@ return {
       })
     end,
   },
+  {
+    "noice.nvim",
+    opts = {
+      lsp = {
+        signature = {
+          auto_open = {
+            enabled = false,
+          },
+        },
+      },
+    },
+  },
   -- Increase timeout on notifications
   {
     "nvim-notify",
