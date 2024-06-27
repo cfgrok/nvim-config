@@ -3,30 +3,47 @@ return {
   {
     "lualine.nvim",
     opts = function(_, opts)
-      table.remove(opts.sections.lualine_c, 3)
-      table.insert(opts.sections.lualine_c, 3, {
+      local util = require("lazyvim.util")
+
+      opts.sections.lualine_c[3] = {
         "filetype",
-        separator = "",
-        padding = { left = 1, right = 0 },
         icon = { align = "right" },
-      })
+        padding = { left = 1, right = 0 },
+        separator = "",
+      }
       table.insert(opts.sections.lualine_c, 4, {
         "fileformat",
-        separator = "",
-        icons_enabled = false,
         color = "lualine_a_replace",
         cond = function()
           return vim.bo.fileformat ~= "unix"
         end,
+        icons_enabled = false,
+        separator = "",
       })
       table.insert(opts.sections.lualine_c, 5, {
         "encoding",
-        separator = "",
         color = "lualine_a_replace",
         cond = function()
           return vim.bo.fileencoding ~= "utf-8"
         end,
+        separator = "",
       })
+      opts.sections.lualine_c[6] = {
+        util.lualine.pretty_path({ modified_hl = "ModifiedFile" }),
+      }
+
+      table.remove(opts.sections.lualine_y, 1)
+      opts.sections.lualine_y[1] = {
+        "location",
+        padding = { left = 0, right = 1 },
+      }
+
+      opts.sections.lualine_z[1] = {
+        "progress",
+        padding = { left = 1, right = 0 },
+        separator = "",
+      }
+      table.insert(opts.sections.lualine_z, { "%L" })
     end,
   },
   {
