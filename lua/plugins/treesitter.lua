@@ -1,6 +1,7 @@
 return {
   {
     "nvim-treesitter",
+    dependencies = { "RRethy/nvim-treesitter-endwise" },
     opts = {
       ensure_installed = {
         "comment",
@@ -13,6 +14,7 @@ return {
         "ruby",
         "tsv",
       },
+      endwise = { enable = true },
       textobjects = {
         swap = {
           enable = true,
