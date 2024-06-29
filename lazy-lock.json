@@ -89,6 +89,7 @@
   "vim-sleuth": { "branch": "master", "commit": "1cc4557420f215d02c4d2645a748a816c220e99b" },
   "vim-test": { "branch": "master", "commit": "34aab77f7a63f20a623df45684156915f6182a55" },
   "vim-textobj-erb": { "branch": "master", "commit": "03e38404e6f728289da14417204b731d9c19ea72" },
+  "vim-textobj-lastpat": { "branch": "master", "commit": "686aa837e3aa649b16572d5d55eb2d8c7fc6c78a" },
   "vim-textobj-user": { "branch": "master", "commit": "41a675ddbeefd6a93664a4dc52f302fe3086a933" },
   "which-key.nvim": { "branch": "main", "commit": "0099511294f16b81c696004fa6a403b0ae61f7a0" }
 }
