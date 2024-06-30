@@ -2,16 +2,112 @@
 -- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
 -- Add any additional autocmds here
 
+vim.g.qf_open = false
+local function is_normal_buffer(win)
+  local winid = win or vim.api.nvim_get_current_win()
+  local bufid = vim.api.nvim_win_get_buf(winid)
+  local normal_buffer = vim.api.nvim_get_option_value("buftype", { buf = bufid }) == ""
+  local modifiable = vim.api.nvim_get_option_value("modifiable", { buf = bufid })
+  local floating = vim.api.nvim_win_get_config(winid).relative ~= ""
+  local qf_open = vim.g.qf_open
+  vim.g.qf_open = false
+  return normal_buffer and modifiable and not floating and not qf_open
+end
+
+local ac = vim.api.nvim_create_autocmd
+local function ag(name) return vim.api.nvim_create_augroup(name, { clear = true }) end
+
 -- Start in insert mode for git commits
-vim.api.nvim_create_augroup("Git", {})
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = "COMMIT_EDITMSG",
+ac("FileType", {
+  group = ag("gitcommit"),
+  pattern = "gitcommit",
   callback = function()
     vim.wo.spell = true
     vim.api.nvim_win_set_cursor(0, { 1, 0 })
-    if vim.fn.getline(1) == "" then
-      vim.cmd("startinsert!")
+    if vim.fn.getline(1) == "" then vim.cmd("startinsert!") end
+  end,
+})
+
+-- Add trailing comma when starting new line in JSON files
+ac("FileType", {
+  group = ag("json_comma"),
+  pattern = "json",
+  callback = function()
+    vim.keymap.set("n", "o", function()
+      local line = vim.api.nvim_get_current_line()
+      local should_add_comma = line:match("[^,{[]$")
+      if should_add_comma then
+        return "A,<cr>"
+      else
+        return "o"
+      end
+    end, { buffer = true, expr = true })
+  end,
+})
+
+-- Disable format on save for specified filetypes
+local disabled_filetypes = { "cf" }
+for _, ft in pairs(disabled_filetypes) do
+  ac("FileType", {
+    group = ag("formatting_disabled_filetypes"),
+    pattern = ft,
+    callback = function() vim.b.autoformat = false end,
+  })
+end
+
+-- Disable tabout for filetypes without a treesitter parser
+ac("BufEnter", {
+  group = ag("tabout_disable"),
+  callback = function()
+    if is_normal_buffer() then
+      local has_parser = require("nvim-treesitter.parsers").has_parser()
+      local tabout = require("tabout")
+      local enabled = tabout.is_enabled()
+
+      if (enabled and not has_parser) or (not enabled and has_parser) then tabout.toggle() end
     end
   end,
-  group = "Git",
+})
+
+-- Automatically create buffer mappings for non-excluded buffer/filetypes
+ac("BufEnter", {
+  group = ag("buffer_mappings"),
+  callback = function()
+    vim.schedule(function()
+      if is_normal_buffer() then
+        -- Add blank line above/below
+        vim.keymap.set(
+          "n",
+          "<c-cr>",
+          "<cmd>call append(line('.')-1, '')<cr><cmd>call append('.', '')<cr>",
+          { desc = "Add Blank Line Above and Below", buffer = true }
+        )
+        vim.keymap.set(
+          "n",
+          "<s-cr>",
+          "<cmd>call append(line('.')-1, '')<cr>",
+          { desc = "Add Blank Line Above", buffer = true }
+        )
+        vim.keymap.set("n", "<cr>", "<cmd>call append('.', '')<cr>", { desc = "Add Blank Line Below", buffer = true })
+
+        -- Override CTRL-w to delete buffer, using nowait to prevent timeoutlen delay
+        vim.keymap.set("n", "<c-w>", LazyVim.ui.bufremove, { desc = "Delete Buffer", nowait = true, buffer = true })
+      end
+    end)
+  end,
+})
+
+-- Add line numbers to telescope previews
+ac("User", {
+  group = ag("telescope_previewer"),
+  pattern = "TelescopePreviewerLoaded",
+  callback = function(args)
+    if args.data.filetype ~= "help" then vim.wo.number = true end
+  end,
+})
+
+ac({ "BufNewFile", "BufRead" }, {
+  group = ag("ansible_yaml"),
+  pattern = "*/provision/*.yml",
+  callback = function() vim.bo.filetype = "yaml.ansible" end,
 })
