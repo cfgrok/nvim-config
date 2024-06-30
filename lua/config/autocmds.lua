@@ -106,6 +106,24 @@ ac("User", {
   end,
 })
 
+vim.g.last_active_window = 1000
+ac("WinEnter", {
+  group = ag("toggle_tint"),
+  callback = function()
+    local tint = require("tint")
+    local win = vim.api.nvim_get_current_win()
+    local qf_open = vim.g.qf_open
+    vim.schedule(function()
+      if not qf_open and is_normal_buffer(win) then vim.g.last_active_window = win end
+      local wins = vim.api.nvim_list_wins()
+      for _, w in pairs(wins) do
+        if w ~= win and is_normal_buffer(w) then tint.tint(w) end
+      end
+      tint.untint(vim.g.last_active_window)
+    end)
+  end,
+})
+
 ac({ "BufNewFile", "BufRead" }, {
   group = ag("ansible_yaml"),
   pattern = "*/provision/*.yml",
