@@ -75,6 +75,10 @@ map("n", "<leader>jp", ":'{,'}s/\\<<c-r><c-w>\\>//g<left><left>", { desc = "Repl
 map("n", "<leader>jr", ":%s/\\<<c-r><c-w>\\>//g<left><left>", { desc = "Replace in buffer" })
 map("x", "<leader>sr", ":s/\\<<c-r><c-w>\\>//g<left><left>", { desc = "Replace in selection" })
 
+-- Remap m/M under leader
+map("n", "<leader>m", "m", { desc = "Set Mark" })
+map("n", "<leader>M", "M", { desc = "Move to Screen Middle" })
+
 -- Toggle floating IRB terminal
 map(
   "n",
