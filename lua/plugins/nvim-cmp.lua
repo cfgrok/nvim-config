@@ -31,9 +31,7 @@ return {
           if cmp.visible() then
             cmp.select_next_item()
           elseif vim.snippet.active({ direction = 1 }) then
-            vim.schedule(function()
-              vim.snippet.jump(1)
-            end)
+            vim.schedule(function() vim.snippet.jump(1) end)
           else
             fallback()
           end
@@ -42,9 +40,7 @@ return {
           if cmp.visible() then
             cmp.select_prev_item()
           elseif vim.snippet.active({ direction = -1 }) then
-            vim.schedule(function()
-              vim.snippet.jump(-1)
-            end)
+            vim.schedule(function() vim.snippet.jump(-1) end)
           else
             fallback()
           end
@@ -65,16 +61,5 @@ return {
         end, { "i", "s" }),
       })
     end,
-  },
-  -- Add snippet filetypes
-  {
-    "nvim-snippets",
-    event = "VeryLazy",
-    opts = {
-      extended_filetypes = {
-        cf = { "html", "javascript" },
-        eruby = { "html" },
-      },
-    },
   },
 }
