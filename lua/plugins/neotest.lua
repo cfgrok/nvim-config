@@ -17,8 +17,4 @@ return {
       }
     end,
   },
-  {
-    "vim-test/vim-test",
-    event = "VeryLazy",
-  },
 }
