@@ -10,9 +10,7 @@ return {
       vim.api.nvim_create_autocmd("FileType", {
         pattern = { "html" },
         group = vim.api.nvim_create_augroup("rainbow_delimiters", { clear = true }),
-        callback = function()
-          require("rainbow-delimiters").disable(0)
-        end,
+        callback = function() require("rainbow-delimiters").disable(0) end,
       })
     end,
     -- Configuration placeholder
@@ -20,9 +18,7 @@ return {
     keys = {
       {
         "<leader>ur",
-        function()
-          require("rainbow-delimiters").toggle(0)
-        end,
+        function() require("rainbow-delimiters").toggle(0) end,
         desc = "Toggle Rainbow Delimiters",
       },
     },
