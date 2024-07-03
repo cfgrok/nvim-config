@@ -1,7 +1,7 @@
 return {
   {
     "alvan/vim-closetag",
-    event = "VeryLazy",
+    lazy = false,
     init = function() vim.g.closetag_filetypes = "cf,eruby,html" end,
   },
 }

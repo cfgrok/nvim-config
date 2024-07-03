@@ -1,6 +1,6 @@
 return {
   {
     "tpope/vim-rails",
-    event = "VeryLazy",
+    lazy = false,
   },
 }

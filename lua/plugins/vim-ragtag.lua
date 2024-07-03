@@ -1,6 +1,6 @@
 return {
   {
     "tpope/vim-ragtag",
-    event = "VeryLazy",
+    lazy = false,
   },
 }
