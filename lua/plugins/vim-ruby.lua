@@ -1,3 +1,6 @@
 return {
-  { "vim-ruby/vim-ruby", event = "VeryLazy" },
+  {
+    "vim-ruby/vim-ruby",
+    event = "VeryLazy",
+  },
 }

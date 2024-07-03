@@ -1,3 +1,6 @@
 return {
-  { "tpope/vim-rbenv", event = "VeryLazy" },
+  {
+    "tpope/vim-rbenv",
+    event = "VeryLazy",
+  },
 }

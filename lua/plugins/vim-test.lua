@@ -1,3 +1,6 @@
 return {
-  { "vim-test/vim-test", event = "VeryLazy" },
+  {
+    "vim-test/vim-test",
+    event = "VeryLazy",
+  },
 }

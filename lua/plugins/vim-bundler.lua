@@ -1,3 +1,6 @@
 return {
-  { "tpope/vim-bundler", event = "VeryLazy" },
+  {
+    "tpope/vim-bundler",
+    event = "VeryLazy",
+  },
 }

@@ -1,3 +1,6 @@
 return {
-  { "tpope/vim-rake", event = "VeryLazy" },
+  {
+    "tpope/vim-rake",
+    event = "VeryLazy",
+  },
 }
