@@ -93,5 +93,6 @@
   "vim-textobj-erb": { "branch": "master", "commit": "03e38404e6f728289da14417204b731d9c19ea72" },
   "vim-textobj-lastpat": { "branch": "master", "commit": "686aa837e3aa649b16572d5d55eb2d8c7fc6c78a" },
   "vim-textobj-user": { "branch": "master", "commit": "41a675ddbeefd6a93664a4dc52f302fe3086a933" },
+  "vim-textobj-xmlattr": { "branch": "master", "commit": "694a297f1d75fd527e87da9769f3c6519a87ebb1" },
   "which-key.nvim": { "branch": "main", "commit": "af4ded85542d40e190014c732fa051bdbf88be3d" }
 }
