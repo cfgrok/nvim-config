@@ -153,6 +153,9 @@ map("n", "<c-y>", ":%y<cr>", { desc = "Yank Buffer to Clipboard" })
 -- Save with CTRL-s
 map({ "n", "i", "x", "s" }, "<c-s>", "<cmd>w<cr>", { desc = "Save File" })
 
+-- Close with CTRL-w -- fallback for buffer keymap
+map({ "n", "x", "s" }, "<c-w>", LazyVim.ui.bufremove, { desc = "Delete Buffer" })
+
 -- Quit all with CTRL-q
 map({ "n", "i", "v" }, "<c-q>", "<cmd>qa<cr>", { desc = "Quit All" })
 

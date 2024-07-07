@@ -14,6 +14,35 @@ local function is_normal_buffer(win)
   return normal_buffer and modifiable and not floating and not qf_open
 end
 
+local function load_buffer_keymaps()
+  vim.schedule(function()
+    if is_normal_buffer() then
+      -- Add blank line above/below
+      vim.keymap.set(
+        "n",
+        "<c-cr>",
+        "<cmd>call append(line('.')-1, '')<cr><cmd>call append('.', '')<cr>",
+        { desc = "Add Blank Line Above and Below", buffer = true }
+      )
+      vim.keymap.set(
+        "n",
+        "<s-cr>",
+        "<cmd>call append(line('.')-1, '')<cr>",
+        { desc = "Add Blank Line Above", buffer = true }
+      )
+      vim.keymap.set("n", "<cr>", "<cmd>call append('.', '')<cr>", { desc = "Add Blank Line Below", buffer = true })
+
+      -- Override CTRL-w to delete buffer, using nowait to prevent timeoutlen delay
+      vim.keymap.set(
+        { "n", "x", "s" },
+        "<c-w>",
+        LazyVim.ui.bufremove,
+        { desc = "Delete Buffer", nowait = true, buffer = true }
+      )
+    end
+  end)
+end
+
 local ac = vim.api.nvim_create_autocmd
 local function ag(name) return vim.api.nvim_create_augroup(name, { clear = true }) end
 
@@ -70,31 +99,18 @@ ac("BufEnter", {
 })
 
 -- Automatically create buffer mappings for non-excluded buffer/filetypes
-ac("BufEnter", {
+ac({ "BufAdd", "BufRead" }, {
   group = ag("buffer_mappings"),
-  callback = function()
-    vim.schedule(function()
-      if is_normal_buffer() then
-        -- Add blank line above/below
-        vim.keymap.set(
-          "n",
-          "<c-cr>",
-          "<cmd>call append(line('.')-1, '')<cr><cmd>call append('.', '')<cr>",
-          { desc = "Add Blank Line Above and Below", buffer = true }
-        )
-        vim.keymap.set(
-          "n",
-          "<s-cr>",
-          "<cmd>call append(line('.')-1, '')<cr>",
-          { desc = "Add Blank Line Above", buffer = true }
-        )
-        vim.keymap.set("n", "<cr>", "<cmd>call append('.', '')<cr>", { desc = "Add Blank Line Below", buffer = true })
+  callback = load_buffer_keymaps,
+})
 
-        -- Override CTRL-w to delete buffer, using nowait to prevent timeoutlen delay
-        vim.keymap.set("n", "<c-w>", LazyVim.ui.bufremove, { desc = "Delete Buffer", nowait = true, buffer = true })
-      end
-    end)
-  end,
+-- Autocmds are not loaded yet when session autoloads, so a separate autocmd is
+-- required to attach buffer keymaps to the first buffer -- triggered by the
+-- LazyVim event which is fired on autocmd loading
+ac("User", {
+  group = ag("buffer_mappings_on_load"),
+  pattern = "LazyVimAutocmds",
+  callback = load_buffer_keymaps,
 })
 
 -- Add line numbers to telescope previews
