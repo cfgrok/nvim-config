@@ -8,10 +8,11 @@ return {
       cmap = false,
       pair_cmap = false,
       tabout = { enable = true, hopout = true, map = "<c-;>" },
+      { "|", "|", suround = true, ft = { "eruby", "ruby" } },
       { "#", "#", suround = true, ft = { "cf" } },
-      { "<%", "%>", space = true, newline = true, ft = { "html" } },
-      { "<%=", "%>", space = true, newline = true, ft = { "html" } },
-      { "<%#", "%>", space = true, newline = true, ft = { "html" } },
+      { "<%", "%>", space = true, newline = true, ft = { "eruby", "html" } },
+      { "<%=", "%>", space = true, newline = true, ft = { "eruby", "html" } },
+      { "<%#", "%>", space = true, newline = true, ft = { "eruby", "html" } },
     },
     keys = {
       {
