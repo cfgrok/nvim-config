@@ -5,7 +5,8 @@
 vim.g.qf_open = false
 local function is_normal_buffer(win)
   local winid = win or vim.api.nvim_get_current_win()
-  local bufid = vim.api.nvim_win_get_buf(winid)
+  local status, bufid = pcall(vim.api.nvim_win_get_buf, winid)
+  if not status then return false end
   local normal_buffer = vim.api.nvim_get_option_value("buftype", { buf = bufid }) == ""
   local modifiable = vim.api.nvim_get_option_value("modifiable", { buf = bufid })
   local floating = vim.api.nvim_win_get_config(winid).relative ~= ""
