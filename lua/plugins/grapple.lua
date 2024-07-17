@@ -15,7 +15,7 @@ return {
       { "M", "<cmd>Grapple toggle<cr>", desc = "Grapple Toggle Tag" },
       { "m", "<cmd>Grapple toggle_tags<cr>", desc = "Grapple Toggle Tags Window" },
       { "<tab>", "<cmd>Grapple cycle_tags next<cr>", desc = "Grapple Cycle Next Tag" },
-      { "<s-tab>", "<cmd>Grapple cycle_tags prev<cr>", desc = "Grapple Cycle Previous Tag" },
+      { "<s-tab>", "<cmd>Grapple cycle_tags prev<cr>", desc = "Grapple Cycle Prev Tag" },
     },
   },
 }

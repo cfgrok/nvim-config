@@ -23,7 +23,7 @@ local function load_buffer_keymaps()
         "n",
         "<c-cr>",
         "<cmd>call append(line('.')-1, '')<cr><cmd>call append('.', '')<cr>",
-        { desc = "Add Blank Line Above and Below", buffer = true }
+        { desc = "Add Blank Lines Around", buffer = true }
       )
       vim.keymap.set(
         "n",
