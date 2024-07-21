@@ -3,6 +3,7 @@
 -- Add any additional keymaps here
 
 local map = vim.keymap.set
+local del = vim.keymap.del
 
 -- Function to clear everything and redraw
 local function clear_and_redraw()
@@ -95,50 +96,45 @@ vim.keymap.del("n", "<leader>uL")
 -- Clear notifications/snippets/hlsearch, diffupdate and redraw
 map("n", "<leader>uR", clear_and_redraw, { desc = "Clear and Redraw" })
 
+-- Open Quickfix list with wrapper function to disable buffer-local mappings
 map("n", "<leader>xq", qf_wrap, { desc = "Quickfix List" })
 
--- Additional window mappings
-map("n", "<leader>wa", "<c-w>_", { desc = "Max Height" })
-map("n", "<leader>we", "<c-w>=", { desc = "Equal Size" })
-map("n", "<leader>wo", "<c-w>o", { desc = "Delete Other Windows" })
-map("n", "<leader>ws", "<c-w>s", { desc = "Split Window Below" })
-map("n", "<leader>wv", "<c-w>v", { desc = "Split Window Right" })
-map("n", "<leader>wx", "<c-w>x", { desc = "Swap With Next" })
-map("n", "<leader>wh", "<c-w>h", { desc = "Go to the left window" })
-map("n", "<leader>wj", "<c-w>j", { desc = "Go to the down window" })
-map("n", "<leader>wk", "<c-w>k", { desc = "Go to the up window" })
-map("n", "<leader>wl", "<c-w>l", { desc = "Go to the right window" })
-map("n", "<leader>wH", "<c-w>H", { desc = "Move window left" })
-map("n", "<leader>wJ", "<c-w>J", { desc = "Move window down" })
-map("n", "<leader>wK", "<c-w>K", { desc = "Move window up" })
-map("n", "<leader>wL", "<c-w>L", { desc = "Move window right" })
+-- Remove custom Ctrl-w mappings
+del("n", "<c-w><space>")
+del("n", "<c-w><c-d>")
+del("n", "<c-w>d")
 
--- Map Alt-w for commonly-used window commands (mirrors which-key defaults for <c-w>)
-map("n", "<a-w>s", "<c-w>s", { desc = "Split window" })
-map("n", "<a-w>v", "<c-w>v", { desc = "Split window vertically" })
-map("n", "<a-w>w", "<c-w>w", { desc = "Switch windows" })
-map("n", "<a-w>q", "<c-w>q", { desc = "Quit a window" })
-map("n", "<a-w>o", "<c-w>o", { desc = "Close all other windows" })
-map("n", "<a-w>T", "<c-w>T", { desc = "Break out into a new tab" })
-map("n", "<a-w>x", "<c-w>x", { desc = "Swap current with next" })
-map("n", "<a-w>-", "<c-w>-", { desc = "Decrease height" })
-map("n", "<a-w>+", "<c-w>+", { desc = "Increase height" })
-map("n", "<a-w><lt>", "<c-w><lt>", { desc = "Decrease width" })
-map("n", "<a-w>>", "<c-w>>", { desc = "Increase width" })
-map("n", "<a-w>|", "<c-w>|", { desc = "Max out the width" })
-map("n", "<a-w>_", "<c-w>_", { desc = "Max out the height" })
-map("n", "<a-w>a", "<c-w>_", { desc = "Max out the height" })
-map("n", "<a-w>=", "<c-w>=", { desc = "Equally high and wide" })
-map("n", "<a-w>e", "<c-w>=", { desc = "Equally high and wide" })
+-- Add maximize window mapping
+LazyVim.toggle.map("<a-w>m", LazyVim.toggle.maximize)
+
+-- Map Alt-w for commonly-used window commands
+map("n", "<a-w>a", "<c-w>_", { desc = "Max height" })
+map("n", "<a-w>d", "<c-w>c", { desc = "Delete window" })
+map("n", "<a-w>e", "<c-w>=", { desc = "Equal size" })
 map("n", "<a-w>h", "<c-w>h", { desc = "Go to the left window" })
-map("n", "<a-w>j", "<c-w>j", { desc = "Go to the down window" })
-map("n", "<a-w>k", "<c-w>k", { desc = "Go to the up window" })
-map("n", "<a-w>l", "<c-w>l", { desc = "Go to the right window" })
 map("n", "<a-w>H", "<c-w>H", { desc = "Move window left" })
+map("n", "<a-w>j", "<c-w>j", { desc = "Go to the lower window" })
 map("n", "<a-w>J", "<c-w>J", { desc = "Move window down" })
+map("n", "<a-w>k", "<c-w>k", { desc = "Go to the upper window" })
 map("n", "<a-w>K", "<c-w>K", { desc = "Move window up" })
+map("n", "<a-w>l", "<c-w>l", { desc = "Go to the right window" })
 map("n", "<a-w>L", "<c-w>L", { desc = "Move window right" })
+map("n", "<a-w>o", "<c-w>o", { desc = "Delete other windows" })
+map("n", "<a-w>q", "<c-w>q", { desc = "Quit a window" })
+map("n", "<a-w>s", "<c-w>s", { desc = "Split window below" })
+map("n", "<a-w>v", "<c-w>v", { desc = "Split window right" })
+map("n", "<a-w>T", "<c-w>T", { desc = "Break out into a new tab" })
+map("n", "<a-w>w", "<c-w>w", { desc = "Switch windows" })
+map("n", "<a-w>x", "<c-w>x", { desc = "Swap with next" })
+map("n", "<a-w>+", "<c-w>+", { desc = "Increase height" })
+map("n", "<a-w>-", "<c-w>-", { desc = "Decrease height" })
+map("n", "<a-w><lt>", "<c-w><lt>", { desc = "Decrease width" })
+map("n", "<a-w>=", "<c-w>=", { desc = "Equal size" })
+map("n", "<a-w>>", "<c-w>>", { desc = "Increase width" })
+map("n", "<a-w>_", "<c-w>_", { desc = "Max height" })
+map("n", "<a-w>|", "<c-w>|", { desc = "Max width" })
 
+-- Window navigation in insert mode
 map("i", "<a-h>", "<c-o><c-w>h", { desc = "Go to the left window" })
 map("i", "<a-j>", "<c-o><c-w>j", { desc = "Go to the down window" })
 map("i", "<a-k>", "<c-o><c-w>k", { desc = "Go to the up window" })
@@ -148,7 +144,7 @@ map("i", "<a-l>", "<c-o><c-w>l", { desc = "Go to the right window" })
 map("n", "<c-i>", "<c-i>")
 
 -- Yank buffer contents into clipboard
-map("n", "<c-y>", ":%y<cr>", { desc = "Yank Buffer to Clipboard" })
+map("n", "<c-y>", ":%y<cr>", { desc = "Yank buffer to clipboard" })
 
 -- Save with CTRL-s in visual/select mode without escape
 map({ "x", "s" }, "<c-s>", "<cmd>w<cr>", { desc = "Save File" })

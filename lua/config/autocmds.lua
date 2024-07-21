@@ -18,7 +18,7 @@ end
 local function load_buffer_keymaps()
   vim.schedule(function()
     if is_normal_buffer() then
-      -- Add blank line above/below
+      -- Add blank line(s) below/above/around
       vim.keymap.set(
         "n",
         "<c-cr>",
