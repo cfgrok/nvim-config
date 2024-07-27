@@ -85,6 +85,7 @@ for _, ft in pairs(disabled_filetypes) do
   })
 end
 
+-- TODO: move to tabout plugin spec
 -- Disable tabout for filetypes without a treesitter parser
 ac("BufEnter", {
   group = ag("tabout_disable"),
@@ -114,6 +115,7 @@ ac("User", {
   callback = load_buffer_keymaps,
 })
 
+-- TODO: move to telescope plugin spec
 -- Add line numbers to telescope previews
 ac("User", {
   group = ag("telescope_previewer"),
@@ -123,6 +125,7 @@ ac("User", {
   end,
 })
 
+-- TODO: move to tint plugin spec
 vim.g.last_active_window = 1000
 ac("WinEnter", {
   group = ag("toggle_tint"),
@@ -141,8 +144,13 @@ ac("WinEnter", {
   end,
 })
 
-ac({ "BufNewFile", "BufRead" }, {
-  group = ag("ansible_yaml"),
-  pattern = "*/provision/*.yml",
-  callback = function() vim.bo.filetype = "yaml.ansible" end,
+-- TODO: document this
+ac("User", {
+  group = ag("TESTING"),
+  pattern = "LazyVimAutocmds",
+  callback = function()
+    LazyVim.on_load("nvim-lspconfig", function()
+      vim.schedule(function() vim.cmd("edit") end)
+    end)
+  end,
 })

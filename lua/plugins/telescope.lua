@@ -26,6 +26,7 @@ return {
   {
     "telescope.nvim",
     opts = function(_, opts)
+      -- TODO: move extension loading to persisted plugin spec
       require("telescope").load_extension("persisted")
       local defaults = {
         layout_config = {
