@@ -74,7 +74,7 @@ map("n", "<leader>jg", ":g/\\<", { desc = "Start global word matching command" }
 map("n", "<leader>jv", ":v/\\<", { desc = "Start global NOT word matching command" })
 map("n", "<leader>jp", ":'{,'}s/\\<<c-r><c-w>\\>//g<left><left>", { desc = "Replace in paragraph" })
 map("n", "<leader>jr", ":%s/\\<<c-r><c-w>\\>//g<left><left>", { desc = "Replace in buffer" })
-map("x", "<leader>sr", ":s/\\<<c-r><c-w>\\>//g<left><left>", { desc = "Replace in selection" })
+map("x", "<leader>ss", ":s/\\<<c-r><c-w>\\>//g<left><left>", { desc = "Replace in selection" })
 
 -- Remap m/M under leader
 map("n", "<leader>m", "m", { desc = "Set Mark" })
