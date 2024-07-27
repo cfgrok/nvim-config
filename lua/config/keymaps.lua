@@ -80,6 +80,26 @@ map("x", "<leader>ss", ":s/\\<<c-r><c-w>\\>//g<left><left>", { desc = "Replace i
 map("n", "<leader>m", "m", { desc = "Set Mark" })
 map("n", "<leader>M", "M", { desc = "Middle Line of Window" })
 
+-- TODO: investigate moving to gitsigns plugin config
+-- Duplicate gitsigns mappings with 'target = "all"' option to support staged hunks
+local gs = require("gitsigns")
+map("n", "]g", function()
+  if vim.wo.diff then
+    vim.cmd.normal({ "]c", bang = true })
+  else
+    gs.nav_hunk("next", { target = "all" })
+  end
+end, { desc = "Next Hunk" })
+map("n", "[g", function()
+  if vim.wo.diff then
+    vim.cmd.normal({ "[c", bang = true })
+  else
+    gs.nav_hunk("prev", { target = "all" })
+  end
+end, { desc = "Prev Hunk" })
+map("n", "]G", function() gs.nav_hunk("last", { target = "all" }) end, { desc = "Last Hunk" })
+map("n", "[G", function() gs.nav_hunk("first", { target = "all" }) end, { desc = "First Hunk" })
+
 -- Toggle floating IRB terminal
 map(
   "n",
