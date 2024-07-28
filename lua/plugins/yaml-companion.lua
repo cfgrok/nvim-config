@@ -4,6 +4,9 @@ local function get_schema()
   LazyVim.info(schema.result[1].name, { title = "YAML Schema" })
 end
 
+local ansible_root_url =
+  "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/"
+
 return {
   "someone-stole-my-name/yaml-companion.nvim",
   event = "VeryLazy",
@@ -11,6 +14,13 @@ return {
     local cfg = require("yaml-companion").setup({
       lspconfig = {
         filetypes = { "yaml", "yaml.ansible" },
+        settings = {
+          yaml = {
+            schemas = {
+              [ansible_root_url .. "tasks"] = "playbooks/tasks/alacritty.yml",
+            },
+          },
+        },
       },
     })
     require("lspconfig")["yamlls"].setup(cfg)
