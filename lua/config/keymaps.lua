@@ -109,9 +109,9 @@ map(
 )
 map("n", "<leader>qI", function() LazyVim.terminal({ "irb" }) end, { desc = "IRB Terminal (cwd)" })
 
--- Customize line number toggle mappings
-map("n", "<leader>ul", function() LazyVim.toggle("relativenumber") end, { desc = "Toggle Relative Line Numbers" })
-vim.keymap.del("n", "<leader>uL")
+-- Swap line number toggle mappings
+LazyVim.toggle.map("<leader>ul", LazyVim.toggle("relativenumber", { name = "Relative Number" }))
+LazyVim.toggle.map("<leader>uL", LazyVim.toggle.number)
 
 -- Clear notifications/snippets/hlsearch, diffupdate and redraw
 map("n", "<leader>uR", clear_and_redraw, { desc = "Clear and Redraw" })

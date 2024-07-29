@@ -1,8 +1,7 @@
 return {
   {
     "altermo/ultimate-autopair.nvim",
-    enabled = true,
-    event = { "InsertEnter", "CmdlineEnter" },
+    event = "VeryLazy",
     branch = "v0.6",
     opts = {
       cmap = false,
@@ -14,20 +13,16 @@ return {
       { "<%=", "%>", space = true, newline = true, ft = { "eruby", "html" } },
       { "<%#", "%>", space = true, newline = true, ft = { "eruby", "html" } },
     },
-    keys = {
-      {
-        "<leader>up",
-        function()
-          local ua = require("ultimate-autopair")
-          ua.toggle()
-          if ua.isenabled() then
-            LazyVim.info("ultimate-autopair enabled", { title = "Autopairs" })
-          else
-            LazyVim.warn("ultimate-autopair disabled", { title = "Autopairs" })
-          end
-        end,
-        desc = "Toggle ultimate-autopair",
-      },
-    },
+    config = function(_, opts)
+      local ua = require("ultimate-autopair")
+      ua.setup(opts)
+
+      -- Ultimate Autopair toggle keymapping
+      LazyVim.toggle.map("<leader>up", {
+        name = "Ultimate Autopair",
+        get = function() return ua.isenabled() end,
+        set = function() ua.toggle() end,
+      })
+    end,
   },
 }

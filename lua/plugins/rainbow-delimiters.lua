@@ -3,24 +3,24 @@ return {
   {
     "HiPhish/rainbow-delimiters.nvim",
     event = "VeryLazy",
-    enabled = true,
-    main = "rainbow-delimiters.setup",
     init = function()
+      local rb = require("rainbow-delimiters")
+
       -- Autocommand to disable delimiters in HTML files by default
       vim.api.nvim_create_autocmd("FileType", {
-        pattern = { "html" },
         group = vim.api.nvim_create_augroup("rainbow_delimiters", { clear = true }),
-        callback = function() require("rainbow-delimiters").disable(0) end,
+        pattern = { "html" },
+        callback = function() rb.disable(0) end,
       })
+
+      -- Rainbow delimiters toggle keymapping -- needed to use defer_fn for toggle to execute
+      vim.defer_fn(function()
+        LazyVim.toggle.map("<leader>ur", {
+          name = "Rainbow Delimiters",
+          get = function() return rb.is_enabled(0) end,
+          set = function() rb.toggle(0) end,
+        })
+      end, 500)
     end,
-    -- Configuration placeholder
-    opts = {},
-    keys = {
-      {
-        "<leader>ur",
-        function() require("rainbow-delimiters").toggle(0) end,
-        desc = "Toggle Rainbow Delimiters",
-      },
-    },
   },
 }
