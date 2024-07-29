@@ -4,6 +4,8 @@ return {
     opts = function(_, opts)
       opts = vim.tbl_deep_extend("force", opts, {
         preset = "modern",
+        delay = function(ctx) return ctx.plugin and 0 or ctx.mode == "o" and 1500 or 200 end,
+        defer = function(ctx) return vim.list_contains({ "v", "V", "<C-V>" }, ctx.mode) end,
         plugins = {
           presets = {
             windows = false,
