@@ -76,7 +76,8 @@ return {
           { "Y", desc = "Yank to end of line" },
           { "&", desc = "Repeat last substitution" },
 
-          -- restore overridden mapping description for Tab key
+          -- restore overridden mapping descriptions
+          { "<leader>jm", desc = "Toggle join/split with mini" },
           { "<tab>", desc = "Grapple Cycle Next Tag" },
         },
         {

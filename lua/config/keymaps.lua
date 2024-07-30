@@ -46,8 +46,8 @@ map("n", "'", "<cmd>lua require('which-key').show('`', {mode = 'n', auto = true}
 map({ "x", "o" }, "'", "`", { desc = "To Mark Position" })
 
 -- Jump to start/end of line
-map({ "n", "x", "o" }, "<s-h>", "^", { desc = "Start of Line" })
-map({ "n", "x", "o" }, "<s-l>", "$", { desc = "End of Line" })
+map({ "n", "x", "o" }, "H", "^", { desc = "Start of Line" })
+map({ "n", "x", "o" }, "L", "$", { desc = "End of Line" })
 
 -- Go to previous/next buffer
 map("n", "<a-h>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
@@ -76,7 +76,11 @@ map("n", "<leader>jp", ":'{,'}s/\\<<c-r><c-w>\\>//g<left><left>", { desc = "Repl
 map("n", "<leader>jr", ":%s/\\<<c-r><c-w>\\>//g<left><left>", { desc = "Replace in buffer" })
 map("x", "<leader>ss", ":s/\\<<c-r><c-w>\\>//g<left><left>", { desc = "Replace in selection" })
 
--- Remap m/M under leader
+-- Remap H/J/L/m/M under leader and add new mapping for LazyVim changelog
+map("n", "<leader>C", function() LazyVim.news.changelog() end, { desc = "LazyVim Changelog" })
+map("n", "<leader>H", "H", { desc = "Home Line of Window" })
+map("n", "<leader>J", "J", { desc = "Join Lines" })
+map("n", "<leader>L", "L", { desc = "Last Line of Window" })
 map("n", "<leader>m", "m", { desc = "Set Mark" })
 map("n", "<leader>M", "M", { desc = "Middle Line of Window" })
 

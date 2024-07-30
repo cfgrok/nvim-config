@@ -7,8 +7,8 @@ return {
       vim.g.splitjoin_join_mapping = ""
     end,
     keys = {
-      { "<leader>jo", "<cmd>SplitjoinJoin<cr>", desc = "join elements" },
-      { "<leader>js", "<cmd>SplitjoinSplit<cr>", desc = "split elements" },
+      { "<leader>jo", "<cmd>SplitjoinJoin<cr>", desc = "Join elements" },
+      { "<leader>js", "<cmd>SplitjoinSplit<cr>", desc = "Split elements" },
     },
   },
 }
