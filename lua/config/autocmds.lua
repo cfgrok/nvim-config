@@ -2,22 +2,31 @@
 -- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
 -- Add any additional autocmds here
 
-vim.g.qf_open = false
-local function is_normal_buffer(win)
+-- Function used to detect a "normal" buffer -- defined as a global function
+-- due to use in autocmds defined within plugin specs -- detection does not
+-- work reliably when opening the quickfix list, so the vim.g.qf_open variable
+-- is set to true in a wrapper function on the keymap as a workaround
+function Is_normal_buffer(win)
   local winid = win or vim.api.nvim_get_current_win()
+
+  -- Using pcall as a guard condition to exit gracefully on exceptions
   local status, bufid = pcall(vim.api.nvim_win_get_buf, winid)
   if not status then return false end
+
   local normal_buffer = vim.api.nvim_get_option_value("buftype", { buf = bufid }) == ""
   local modifiable = vim.api.nvim_get_option_value("modifiable", { buf = bufid })
   local floating = vim.api.nvim_win_get_config(winid).relative ~= ""
   local qf_open = vim.g.qf_open
   vim.g.qf_open = false
+
   return normal_buffer and modifiable and not floating and not qf_open
 end
 
+-- Mapping <cr> is problematic for certain buffer types, so using buffer-local
+-- mappings with a check for a "normal" buffer to prevent issues
 local function load_buffer_keymaps()
   vim.schedule(function()
-    if is_normal_buffer() then
+    if Is_normal_buffer() then
       -- Add blank line(s) below/above/around
       vim.keymap.set(
         "n",
@@ -79,26 +88,11 @@ ac("FileType", {
 local disabled_filetypes = { "cf" }
 for _, ft in pairs(disabled_filetypes) do
   ac("FileType", {
-    group = ag("formatting_disabled_filetypes"),
+    group = ag("formatting_disabled_filetypes_" .. ft),
     pattern = ft,
     callback = function() vim.b.autoformat = false end,
   })
 end
-
--- TODO: move to tabout plugin spec
--- Disable tabout for filetypes without a treesitter parser
-ac("BufEnter", {
-  group = ag("tabout_disable"),
-  callback = function()
-    if is_normal_buffer() then
-      local has_parser = require("nvim-treesitter.parsers").has_parser()
-      local tabout = require("tabout")
-      local enabled = tabout.is_enabled()
-
-      if (enabled and not has_parser) or (not enabled and has_parser) then tabout.toggle() end
-    end
-  end,
-})
 
 -- Automatically create buffer mappings for non-excluded buffer/filetypes
 ac({ "BufAdd", "BufRead" }, {
@@ -106,51 +100,17 @@ ac({ "BufAdd", "BufRead" }, {
   callback = load_buffer_keymaps,
 })
 
--- Autocmds are not loaded yet when session autoloads, so a separate autocmd is
--- required to attach buffer keymaps to the first buffer -- triggered by the
--- LazyVim event which is fired on autocmd loading
+-- When autoloading a session the first buffer is loaded before autocmds and
+-- LSP initialization, so this autocmd is used to reload the initial buffer
+-- after LSP loading completes so the buffer_mappings autocmd will execute and
+-- LSP attachment can occur -- triggered by the LazyVim event which is fired
+-- after autocmd loading
 ac("User", {
-  group = ag("buffer_mappings_on_load"),
-  pattern = "LazyVimAutocmds",
-  callback = load_buffer_keymaps,
-})
-
--- TODO: move to telescope plugin spec
--- Add line numbers to telescope previews
-ac("User", {
-  group = ag("telescope_previewer"),
-  pattern = "TelescopePreviewerLoaded",
-  callback = function(args)
-    if args.data.filetype ~= "help" then vim.wo.number = true end
-  end,
-})
-
--- TODO: move to tint plugin spec
-vim.g.last_active_window = 1000
-ac("WinEnter", {
-  group = ag("toggle_tint"),
-  callback = function()
-    local tint = require("tint")
-    local win = vim.api.nvim_get_current_win()
-    local qf_open = vim.g.qf_open
-    vim.schedule(function()
-      if not qf_open and is_normal_buffer(win) then vim.g.last_active_window = win end
-      local wins = vim.api.nvim_list_wins()
-      for _, w in pairs(wins) do
-        if w ~= win and is_normal_buffer(w) then tint.tint(w) end
-      end
-      tint.untint(vim.g.last_active_window)
-    end)
-  end,
-})
-
--- TODO: document this
-ac("User", {
-  group = ag("TESTING"),
+  group = ag("reload_after_lsp_load"),
   pattern = "LazyVimAutocmds",
   callback = function()
     LazyVim.on_load("nvim-lspconfig", function()
-      vim.schedule(function() vim.cmd("edit") end)
+      vim.schedule(function() vim.cmd.edit() end)
     end)
   end,
 })

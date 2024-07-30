@@ -4,6 +4,26 @@ return {
     lazy = false,
     priority = 900,
     opts = function(_, opts)
+      LazyVim.on_load("telescope.nvim", function() require("telescope").load_extension("persisted") end)
+
+      local group = vim.api.nvim_create_augroup("PersistedHooks", { clear = true })
+      vim.api.nvim_create_autocmd({ "User" }, {
+        group = group,
+        pattern = "PersistedTelescopeLoadPre",
+        callback = function()
+          -- Save the currently loaded session using a global variable
+          require("persisted").save({ session = vim.g.persisted_loaded_session })
+
+          -- Delete all of the open buffers
+          vim.cmd("%bd!")
+        end,
+      })
+      vim.api.nvim_create_autocmd("User", {
+        group = group,
+        pattern = "PersistedLoadPost",
+        callback = function(session) vim.fn.execute("!git checkout " .. session.data.branch) end,
+      })
+
       opts = {
         use_git_branch = true,
         autoload = true,
@@ -14,26 +34,6 @@ return {
           "~/Documents/workspace",
         },
       }
-      LazyVim.on_load("telescope.nvim", function() require("telescope").load_extension("persisted") end)
-
-      local group = vim.api.nvim_create_augroup("PersistedHooks", { clear = true })
-      vim.api.nvim_create_autocmd({ "User" }, {
-        pattern = "PersistedTelescopeLoadPre",
-        group = group,
-        callback = function()
-          -- Save the currently loaded session using a global variable
-          require("persisted").save({ session = vim.g.persisted_loaded_session })
-
-          -- Delete all of the open buffers
-          vim.cmd("%bd!")
-        end,
-      })
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "PersistedLoadPost",
-        group = group,
-        callback = function(session) vim.fn.execute("!git checkout " .. session.data.branch) end,
-      })
-
       return opts
     end,
     keys = {

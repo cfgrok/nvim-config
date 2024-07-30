@@ -26,6 +26,15 @@ return {
   {
     "telescope.nvim",
     opts = function(_, opts)
+      -- Add line numbers to telescope previews
+      vim.api.nvim_create_autocmd("User", {
+        group = vim.api.nvim_create_augroup("telescope_previewer", { clear = true }),
+        pattern = "TelescopePreviewerLoaded",
+        callback = function(args)
+          if args.data.filetype ~= "help" then vim.wo.number = true end
+        end,
+      })
+
       local defaults = {
         layout_config = {
           horizontal = {
@@ -46,6 +55,7 @@ return {
         sorting_strategy = "ascending",
       }
       opts.defaults = vim.tbl_deep_extend("force", opts.defaults, defaults)
+
       return opts
     end,
     keys = {
