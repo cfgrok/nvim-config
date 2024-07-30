@@ -15,4 +15,4 @@ vo.cedit = "<c-o>"
 vo.mouse = ""
 vo.scrolloff = 2
 vo.signcolumn = "yes:2"
-vo.timeoutlen = 400
+vo.timeoutlen = 1000
