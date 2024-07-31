@@ -109,8 +109,10 @@ ac("User", {
   group = ag("reload_after_lsp_load"),
   pattern = "LazyVimAutocmds",
   callback = function()
-    LazyVim.on_load("nvim-lspconfig", function()
-      vim.schedule(function() vim.cmd.edit() end)
-    end)
+    if Is_normal_buffer() then
+      LazyVim.on_load("nvim-lspconfig", function()
+        vim.schedule(function() vim.cmd.edit() end)
+      end)
+    end
   end,
 })
