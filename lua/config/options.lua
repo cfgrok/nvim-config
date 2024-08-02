@@ -9,6 +9,7 @@ vg.lazygit_config = false
 -- WARNING: investigate issue with prettier -- conform healthcheck reports:
 -- WARNING prettier unavailable: Condition failed
 vg.lazyvim_prettier_needs_config = false
+vg.ruby_host_prog = "~/.local/rbenv/versions/3.3.4/bin/neovim-ruby-host"
 vg.loaded_perl_provider = 0
 
 vo.cedit = "<c-o>"
