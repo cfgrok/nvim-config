@@ -8,9 +8,23 @@ return {
           command = "erb-format",
           args = { "--stdin", "--print-width", "120" },
         },
+        rubocop = {
+          command = "bundle",
+          args = {
+            "exec",
+            "rubocop",
+            "-A",
+            "-f",
+            "quiet",
+            "--stderr",
+            "--stdin",
+            "$FILENAME",
+          },
+        },
       },
       formatters_by_ft = {
         eruby = { "erb_format" },
+        ruby = { "rubocop" },
       },
     },
   },

@@ -2,7 +2,7 @@ return {
   {
     "mason.nvim",
     opts = {
-      PATH = "append",
+      -- PATH = "append",
     },
   },
 }

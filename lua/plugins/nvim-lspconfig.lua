@@ -1,13 +1,13 @@
--- Solargraph LSP server helper function -- executes via Bundler if the
--- solargraph gem is included in the Gemfile, otherwise uses the system gem
-local solargraph_cmd = function()
+-- Bundler LSP server helper function -- executes via bundler if the command's
+-- gem is included in the Gemfile, otherwise uses the system gem
+local bundle_cmd = function(cmd)
   local ret_code = nil
-  local jid = vim.fn.jobstart("bundle info solargraph", {
+  local jid = vim.fn.jobstart("cat Gemfile | rg " .. cmd[1], {
     on_exit = function(_, data) ret_code = data end,
   })
-  vim.fn.jobwait({ jid }, 5000)
-  if ret_code == 0 then return { "bundle", "exec", "solargraph", "stdio" } end
-  return { "solargraph", "stdio" }
+  vim.fn.jobwait({ jid }, 1000)
+  if ret_code == 0 then return vim.list_extend({ "bundle", "exec" }, cmd) end
+  return cmd
 end
 
 return {
@@ -118,8 +118,12 @@ return {
               provideFormatter = true,
             },
           },
+          rubocop = {
+            enabled = false,
+            cmd = bundle_cmd({ "rubocop", "--lsp" }),
+          },
           ruby_lsp = {
-            autostart = false,
+            enabled = false,
             cmd = { "bundle", "exec", "ruby-lsp" },
             init_options = {
               enabledFeatures = {
@@ -142,12 +146,8 @@ return {
             },
             settings = {},
           },
-          rubocop = {
-            enabled = false,
-          },
-          -- Add/configure solargraph LSP server
           solargraph = {
-            cmd = solargraph_cmd(),
+            cmd = bundle_cmd({ "solargraph", "stdio" }),
             root_dir = require("lspconfig.util").root_pattern("Gemfile", ".git", "."),
             settings = {
               solargraph = {
@@ -163,6 +163,10 @@ return {
                 symbols = true,
               },
             },
+          },
+          standardrb = {
+            enabled = false,
+            cmd = bundle_cmd({ "standardrb", "--lsp" }),
           },
           tailwindcss = {
             settings = {
