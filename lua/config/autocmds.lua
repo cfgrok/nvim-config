@@ -94,6 +94,17 @@ for _, ft in pairs(disabled_filetypes) do
   })
 end
 
+-- Delete vim-rails window keymaps
+ac("FileType", {
+  group = ag("rails_keymaps"),
+  pattern = "ruby",
+  callback = function()
+    pcall(vim.keymap.del, "n", "<c-w>f", { buffer = true })
+    pcall(vim.keymap.del, "n", "<c-w>gf", { buffer = true })
+    pcall(vim.keymap.del, "n", "<c-w><c-f>", { buffer = true })
+  end,
+})
+
 -- Automatically create buffer mappings for non-excluded buffer/filetypes
 ac({ "BufAdd", "BufRead" }, {
   group = ag("buffer_mappings"),
