@@ -105,6 +105,13 @@ ac("FileType", {
   end,
 })
 
+-- Override vim-rails setting YAML file to eruby.yaml filetype
+ac("FileType", {
+  group = ag("eruby_yaml"),
+  pattern = "eruby.yaml",
+  command = "set filetype=yaml",
+})
+
 -- Automatically create buffer mappings for non-excluded buffer/filetypes
 ac({ "BufAdd", "BufRead" }, {
   group = ag("buffer_mappings"),
