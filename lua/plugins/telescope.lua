@@ -45,10 +45,11 @@ return {
         },
         mappings = {
           i = {
-            ["<c-f>"] = actions.preview_scrolling_left,
+            ["<c-j>"] = actions.preview_scrolling_left,
             ["<cr>"] = multiopen,
           },
           n = {
+            ["<c-j>"] = actions.preview_scrolling_left,
             ["<cr>"] = multiopen,
           },
         },
