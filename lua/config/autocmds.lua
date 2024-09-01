@@ -94,7 +94,7 @@ for _, ft in pairs(disabled_filetypes) do
   })
 end
 
--- Delete vim-rails window keymaps
+-- Delete vim-rails window keymaps and remove "." from indentkeys option for ruby files
 ac("FileType", {
   group = ag("rails_keymaps"),
   pattern = "ruby",
@@ -102,6 +102,7 @@ ac("FileType", {
     pcall(vim.keymap.del, "n", "<c-w>f", { buffer = true })
     pcall(vim.keymap.del, "n", "<c-w>gf", { buffer = true })
     pcall(vim.keymap.del, "n", "<c-w><c-f>", { buffer = true })
+    vim.opt_local.indentkeys:remove({ "." })
   end,
 })
 
