@@ -18,11 +18,12 @@ return {
           vim.cmd("%bd!")
         end,
       })
-      vim.api.nvim_create_autocmd("User", {
-        group = group,
-        pattern = "PersistedLoadPost",
-        callback = function(session) vim.fn.execute("!git checkout " .. session.data.branch) end,
-      })
+      -- TODO: investigate autocmd error
+      -- vim.api.nvim_create_autocmd("User", {
+      --   group = group,
+      --   pattern = "PersistedLoadPost",
+      --   callback = function(session) vim.fn.execute("!git checkout " .. session.data.branch) end,
+      -- })
 
       opts = {
         use_git_branch = true,

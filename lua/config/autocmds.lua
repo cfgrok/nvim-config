@@ -124,6 +124,7 @@ ac({ "BufAdd", "BufRead" }, {
 -- after LSP loading completes so the buffer_mappings autocmd will execute and
 -- LSP attachment can occur -- triggered by the LazyVim event which is fired
 -- after autocmd loading
+-- FIX: autocmd produces error when opening empty buffer
 ac("User", {
   group = ag("reload_after_lsp_load"),
   pattern = "LazyVimAutocmds",
