@@ -46,7 +46,7 @@ local function load_buffer_keymaps()
       vim.keymap.set(
         { "n", "x", "s" },
         "<c-w>",
-        LazyVim.ui.bufremove,
+        Snacks.bufdelete.delete,
         { desc = "Delete Buffer", nowait = true, buffer = true }
       )
     end

@@ -7,7 +7,7 @@ return {
 
       -- Autocompletion toggle keymapping
       vim.g.cmp_autocomplete = true
-      LazyVim.toggle.map("<leader>ua", {
+      Snacks.toggle({
         name = "Autocompletion",
         get = function() return vim.g.cmp_autocomplete end,
         set = function(state)
@@ -18,7 +18,7 @@ return {
             cmp.setup({ completion = { autocomplete = false } })
           end
         end,
-      })
+      }):map("<leader>ua")
 
       -- Configure "supertab" for completion and snippet navigation, as well as
       -- Ctrl-space for toggling completion menu and escape for closing it

@@ -69,17 +69,19 @@ return {
       ft.set("cf", cfml_comment)
 
       -- CFML/CFScript toggle keymapping
-      LazyVim.toggle.map("<leader>uz", {
-        name = "CFScript Comments",
-        get = function() return ft.get("cf", 1) == cfscript_comment[1] end,
-        set = function(state)
-          if state then
-            ft.set("cf", cfscript_comment)
-          else
-            ft.set("cf", cfml_comment)
-          end
-        end,
-      })
+      require("snacks")
+        .toggle({
+          name = "CFScript Comments",
+          get = function() return ft.get("cf", 1) == cfscript_comment[1] end,
+          set = function(state)
+            if state then
+              ft.set("cf", cfscript_comment)
+            else
+              ft.set("cf", cfml_comment)
+            end
+          end,
+        })
+        :map("<leader>uz")
     end,
     keys = {
       { "gcu", "gcgc", desc = "Uncomment commented block", remap = true },

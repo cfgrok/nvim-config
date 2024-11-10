@@ -15,11 +15,11 @@ return {
 
       -- Rainbow delimiters toggle keymapping -- needed to use defer_fn for toggle to execute
       vim.defer_fn(function()
-        LazyVim.toggle.map("<leader>ur", {
+        Snacks.toggle({
           name = "Rainbow Delimiters",
           get = function() return rb.is_enabled(0) end,
           set = function() rb.toggle(0) end,
-        })
+        }):map("<leader>ur")
       end, 500)
     end,
   },

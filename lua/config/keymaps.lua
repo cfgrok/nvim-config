@@ -54,7 +54,7 @@ map("n", "<a-h>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 map("n", "<a-l>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 
 -- Delete all other buffers
-map("n", "<leader>bo", "<cmd>%bd!<bar>e#<bar>bd#<cr>", { desc = "Delete Other Buffers" })
+map("n", "<leader>bo", Snacks.bufdelete.other, { desc = "Delete Other Buffers" })
 
 -- Add mapping for LazyExtras
 map("n", "<leader>cx", "<cmd>LazyExtras<cr>", { desc = "Lazy Extras" })
@@ -88,14 +88,14 @@ map("n", "<leader>M", "M", { desc = "Middle Line of Window" })
 map(
   "n",
   "<leader>qi",
-  function() LazyVim.terminal({ "irb" }, { cwd = LazyVim.root() }) end,
+  function() Snacks.terminal("irb", { cwd = LazyVim.root() }) end,
   { desc = "IRB Terminal (Root dir)" }
 )
-map("n", "<leader>qI", function() LazyVim.terminal({ "irb" }) end, { desc = "IRB Terminal (cwd)" })
+map("n", "<leader>qI", function() Snacks.terminal("irb") end, { desc = "IRB Terminal (cwd)" })
 
 -- Swap line number toggle mappings
-LazyVim.toggle.map("<leader>ul", LazyVim.toggle("relativenumber", { name = "Relative Number" }))
-LazyVim.toggle.map("<leader>uL", LazyVim.toggle.number)
+Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>ul")
+Snacks.toggle.line_number():map("<leader>uL")
 
 -- Clear notifications/snippets/hlsearch, diffupdate and redraw
 map("n", "<leader>uR", clear_and_redraw, { desc = "Clear and Redraw" })
@@ -109,7 +109,7 @@ del("n", "<c-w><c-d>")
 del("n", "<c-w>d")
 
 -- Add maximize window mapping
-LazyVim.toggle.map("<a-w>m", LazyVim.toggle.maximize)
+LazyVim.ui.maximize():map("<a-w>m")
 
 -- Map Alt-w for commonly-used window commands
 map("n", "<a-w>a", "<c-w>_", { desc = "Max height" })
@@ -154,7 +154,7 @@ map("n", "<c-y>", ":%y<cr>", { desc = "Yank buffer to clipboard" })
 map({ "x", "s" }, "<c-s>", "<cmd>w<cr>", { desc = "Save File" })
 
 -- Close with CTRL-w -- fallback for buffer keymap
-map({ "n", "x", "s" }, "<c-w>", LazyVim.ui.bufremove, { desc = "Delete Buffer" })
+map({ "n", "x", "s" }, "<c-w>", Snacks.bufdelete.delete, { desc = "Delete Buffer" })
 
 -- Quit all with CTRL-q
 map({ "n", "i", "v" }, "<c-q>", "<cmd>qa<cr>", { desc = "Quit All" })

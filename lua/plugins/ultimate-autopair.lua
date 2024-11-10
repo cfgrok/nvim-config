@@ -18,11 +18,11 @@ return {
       ua.setup(opts)
 
       -- Ultimate Autopair toggle keymapping
-      LazyVim.toggle.map("<leader>up", {
+      Snacks.toggle({
         name = "Ultimate Autopair",
         get = function() return ua.isenabled() end,
         set = function() ua.toggle() end,
-      })
+      }):map("<leader>up")
     end,
   },
 }
